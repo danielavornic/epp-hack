@@ -13,7 +13,11 @@ const config: Config = {
       center: true,
       padding: "1rem"
     },
-    extend: {}
+    extend: {
+      // backgroundImage: {
+      //   hero: "radial-gradient(circle at 10% 20%, rgb(7, 121, 222) 0%, rgb(20, 60, 160) 90%)"
+      // }
+    }
   },
   darkMode: "class",
   plugins: [nextui()]
