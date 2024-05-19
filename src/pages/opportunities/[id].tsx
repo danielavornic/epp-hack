@@ -1,5 +1,7 @@
 import { Layout } from "@/components/uni";
 import { CoursesPanel } from "@/components/uni/offer/CoursesPanel";
+import { useAppDispatch, useComparison } from "@/lib/hooks";
+import { addOffer, removeOffer } from "@/lib/slices/comparisonSlice";
 import { Offer, SpecializationCourses } from "@/types";
 import { Button, Card, CardBody, CardFooter, CardHeader, Image, Divider } from "@nextui-org/react";
 import {
@@ -14,6 +16,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const data: Offer = {
   id: "5",
@@ -138,6 +141,25 @@ const OfferPage = () => {
     };
   }, [specialization]);
 
+  const { offers } = useComparison();
+  const dispatch = useAppDispatch();
+
+  const handleToggleOffer = () => {
+    const index = offers.findIndex((o: any) => o.id === data.id);
+    if (index !== -1) {
+      dispatch(removeOffer(data.id));
+      toast.success("Offer removed from comparison");
+    } else {
+      if (offers.length === 2) {
+        toast.error("You can only compare 2 programmes");
+        return;
+      }
+
+      dispatch(addOffer(data));
+      toast.success("Offer added to comparison");
+    }
+  };
+
   return (
     <Layout title={data.offer_name}>
       <div className="min-h-screen bg-slate-50 pb-10">
@@ -153,8 +175,12 @@ const OfferPage = () => {
               <p className=" pt-4">{description}</p>
             </div>
             <div>
-              <Button color="primary" endContent={<Scale />}>
-                Add to comparison
+              <Button
+                color={offers.some((o) => o.id === data.id) ? "success" : "primary"}
+                endContent={<Scale />}
+                onClick={handleToggleOffer}
+              >
+                {offers.some((o) => o.id === data.id) ? "Added to comparison" : "Add to comparison"}
               </Button>
             </div>
           </div>
@@ -248,7 +274,7 @@ const OfferPage = () => {
                 <li
                   key={specialization.speicialization_id}
                   onClick={() => onClickSpecialization(specialization.speicialization_id)}
-                  className="cursor-pointer text-primary-600 hover:text-primary-800"
+                  className="w-fit cursor-pointer text-primary-600 hover:text-primary-800"
                 >
                   {specialization.specialization_name}
                 </li>

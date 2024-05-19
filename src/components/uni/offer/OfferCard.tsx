@@ -1,10 +1,14 @@
+import { useAppDispatch, useComparison } from "@/lib/hooks";
+import { addOffer, removeOffer, toggleOffer } from "@/lib/slices/comparisonSlice";
 import { Offer } from "@/types";
 import { Button } from "@nextui-org/react";
 import { Scale } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import queryString from "query-string";
+import { useMemo } from "react";
 import Highlighter from "react-highlight-words";
+import toast from "react-hot-toast";
 
 const FooterItem = ({ field, value }: { field: string; value: string }) => (
   <p className="text-body-md">
@@ -42,9 +46,30 @@ export const OfferCard = ({ offer }: { offer: Offer }) => {
   const { query, pathname, push } = useRouter();
   const searchTerm = query.searchTerm as string;
 
+  const dispatch = useAppDispatch();
+  const { offers } = useComparison();
+
+  const isOfferInComparison = offers.some((o) => o.id === offer.id);
+
+  const handleToggleOffer = () => {
+    const index = offers.findIndex((o: any) => o.id === offer.id);
+    if (index !== -1) {
+      dispatch(removeOffer(offer.id));
+      toast.success("Offer removed from comparison");
+    } else {
+      if (offers.length === 2) {
+        toast.error("You can only compare 2 programmes");
+        return;
+      }
+
+      dispatch(addOffer(offer));
+      toast.success("Offer added to comparison");
+    }
+  };
+
   return (
     <div className="border-stroke rounded-[10px] border bg-white shadow-sm">
-      <div className="mx-card pt-card flex items-start justify-between pb-7">
+      <div className="mx-card flex items-start justify-between pb-7 pt-card">
         <div>
           <Highlighter
             searchWords={[searchTerm]}
@@ -59,7 +84,13 @@ export const OfferCard = ({ offer }: { offer: Offer }) => {
           <Link href={`/opportunities/${id}`}>
             <Button color="primary">View more</Button>
           </Link>
-          <Button isIconOnly title="Add to comparison" variant="flat">
+          <Button
+            isIconOnly
+            title="Add to comparison"
+            variant="flat"
+            color={isOfferInComparison ? "success" : undefined}
+            onClick={handleToggleOffer}
+          >
             <Scale />
           </Button>
         </div>
@@ -67,12 +98,12 @@ export const OfferCard = ({ offer }: { offer: Offer }) => {
 
       <hr className="border-stroke mx-[15px] border" />
 
-      <div className="px-card mb-6 mt-4 space-y-[5px]">
+      <div className="mb-6 mt-4 space-y-[5px] px-card">
         <h4 className="text-body-md mb-[5px] font-medium text-primary-500">About offer</h4>
         <p className="text-body-sm line-clamp-4">{description}</p>
       </div>
 
-      <div className="mr-card border-stroke pl-card flex space-x-[30px] border-t pb-[15px] pt-[13px]">
+      <div className="border-stroke mr-card flex space-x-[30px] border-t pb-[15px] pl-card pt-[13px]">
         <FooterItem field="Scolarship fee" value={`${scholarship} EUR`} />
         <FooterItem field="Application deadline" value={formatDate(endDate)} />
       </div>

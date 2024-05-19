@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { LanguageSwitcher } from "../common";
+import { useComparison } from "@/lib/hooks";
 
 const links = [
   {
@@ -35,7 +36,33 @@ const links = [
 
 export const Navbar = () => {
   const router = useRouter();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { offers } = useComparison();
+
+  const links = [
+    {
+      title: "Home",
+      href: "/"
+    },
+    {
+      title: "Opportunities",
+      href: "/opportunities",
+      submenu: [
+        {
+          title: "All",
+          href: "/opportunities"
+        },
+        {
+          title: "Comparison",
+          href: "/opportunities/comparison",
+          badge: offers.length.toString()
+        }
+      ]
+    },
+    {
+      title: "Success stories",
+      href: "/success-stories"
+    }
+  ];
 
   const isWhite = router.pathname === "/";
 
