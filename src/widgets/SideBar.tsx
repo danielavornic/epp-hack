@@ -26,8 +26,13 @@ const SideBar: React.FC<ChildComponentProps> = ({ children }) => {
       <div
         className={`min-h-screen bg-primary ${open ? "w-72" : "w-16"} px-4 text-white duration-500`}
       >
-        <div className="flex justify-end py-3">
-          <HiMenuAlt3 size={26} className="cursor-pointer" onClick={() => setOpen(!open)} />
+        <div className={`align-center flex justify-between ${!open ? `flex-col` : ``}`}>
+          <div className="flex py-3">
+            <h3>UTM</h3>
+          </div>
+          <div className="flex-end flex py-3">
+            <HiMenuAlt3 size={26} className="cursor-pointer" onClick={() => setOpen(!open)} />
+          </div>
         </div>
         <div className="relative mt-4 flex flex-col gap-4">
           {menus?.map((menu, i) => (
@@ -63,7 +68,7 @@ const SideBar: React.FC<ChildComponentProps> = ({ children }) => {
           ))}
         </div>
       </div>
-      {<div className="w-full p-2">{children}</div>}
+      {<div className="max-h-full w-full overflow-auto p-2">{children}</div>}
     </section>
   );
 };
