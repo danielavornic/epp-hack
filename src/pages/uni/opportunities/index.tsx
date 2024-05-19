@@ -24,7 +24,7 @@ const Index = () => {
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const response = await axios.get("http://192.168.138.2:8080/api/offers");
+        const response = await axios.get("http://192.168.43.106:8080/api/offers");
         setOffers(response.data);
       } catch (error) {
         console.error("Error fetching offers:", error);

@@ -1,3 +1,4 @@
+import { commonApi } from "@/api";
 import {
   Button,
   Modal,
@@ -8,6 +9,7 @@ import {
   Select,
   SelectItem
 } from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 
 type FormData = {
@@ -17,14 +19,15 @@ type FormData = {
 };
 
 const universities = [
-  { university_id: "0", university_name: "UTM" },
-  { university_id: "1", university_name: "USM" }
+  { university_id: "15", university_name: "Techical University of Moldova (UTM)" },
+  { university_id: "16", university_name: "State University of Moldova (USM)" },
+  { university_id: "12", university_name: "Academy of Economic Studies of Moldova (ASEM)" }
 ];
 
-const specializations = [
-  { specialization_id: "0", specialization_name: "Computer Science" },
-  { specialization_id: "1", specialization_name: "Economics" }
-];
+// const specializations = [
+//   { specialization_id: "0", specialization_name: "Software Engineering" },
+//   { specialization_id: "1" }
+// ];
 
 const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -47,6 +50,12 @@ export const StudentModal = ({
     mode: "onChange"
   });
 
+  const { data: specializations } = useQuery({
+    queryKey: ["specializations", watch("university")],
+    queryFn: () => commonApi.getSpecializationsByUniversity(watch("university")),
+    enabled: !!watch("university")
+  });
+
   const onSubmit = (data: any) => {
     const studentData = {
       university: {
@@ -55,7 +64,7 @@ export const StudentModal = ({
       },
       specialization: {
         id: data.specialization,
-        name: specializations.find((s) => s.specialization_id === data.specialization)
+        name: specializations.find((s: any) => s.specialization_id === data.specialization)
           ?.specialization_name
       },
       semester: data.semester.toString()
@@ -87,7 +96,13 @@ export const StudentModal = ({
                       size="sm"
                       label="University"
                       className="w-full"
-                      onChange={(value) => field.onChange(value)}
+                      onChange={(e) => {
+                        // console.log(filter.options);
+                        // the value is the index of the keys
+                        const value = universities?.[parseInt(e.target.value)].university_id;
+                        // console.log(value, Object.keys(filter.options));
+                        field.onChange(value);
+                      }}
                       value={field.value as string}
                     >
                       {universities.map((option, index) => (
@@ -111,11 +126,17 @@ export const StudentModal = ({
                       size="sm"
                       label="Specialization"
                       className="mt-4 w-full"
-                      onChange={(value) => field.onChange(value)}
+                      onChange={(e) => {
+                        // console.log(filter.options);
+                        // the value is the index of the keys
+                        const value = specializations?.[parseInt(e.target.value)].specialization_id;
+                        // console.log(value, Object.keys(filter.options));
+                        field.onChange(value);
+                      }}
                       value={field.value as string}
                       isDisabled={!watch("university")}
                     >
-                      {specializations.map((option, index) => (
+                      {specializations?.map((option: any, index: number) => (
                         <SelectItem key={index} value={option.specialization_id}>
                           {option.specialization_name}
                         </SelectItem>

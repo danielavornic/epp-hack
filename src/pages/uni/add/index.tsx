@@ -28,7 +28,7 @@ const AddOfferPage: React.FC = () => {
   useEffect(() => {
     const fetchSpecializations = async () => {
       try {
-        const response = await axios.get("http://192.168.138.2:8080/api/specializations/u/15");
+        const response = await axios.get("http://192.168.43.106:8080/api/specializations/u/15");
         const formattedSpecializations = response.data.map((spec: any) => ({
           value: spec.specialization_id,
           label: spec.specialization_name.trim(),
@@ -41,7 +41,7 @@ const AddOfferPage: React.FC = () => {
 
     const fetchUniversities = async () => {
       try {
-        const response = await axios.get("http://192.168.138.2:8080/api/universities");
+        const response = await axios.get("http://192.168.43.106:8080/api/universities");
         const formattedUniversities = response.data.map((uni: any) => ({
           value: uni.university_id,
           label: uni.university_name,
@@ -75,7 +75,7 @@ const AddOfferPage: React.FC = () => {
     };
 
     try {
-      await axios.post("http://192.168.138.2:8080/api/offers", dataToSend);
+      await axios.post("http://192.168.43.106:8080/api/offers", dataToSend);
       reset();
       router.push("/uni/opportunities");
     } catch (error) {

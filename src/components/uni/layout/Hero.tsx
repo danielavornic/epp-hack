@@ -27,11 +27,8 @@ export const Hero = () => {
             </Link>
           </div>
         </div>
-        <div className="relative w-full">
-          <img
-            src="/images/hero-laptop.png"
-            className="absolute right-[-120px] top-[-190px] h-auto min-w-[860px] animate-bounce"
-          />
+        <div className="relative ml-10 w-full">
+          <img src="/images/hero-laptop.png" className="h-auto min-w-[760px] animate-bounce" />
         </div>
       </div>
     </div>

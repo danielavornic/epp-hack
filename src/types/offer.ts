@@ -18,3 +18,14 @@ export interface Offer {
     speicialization_id: string;
   }[];
 }
+
+interface Course {
+  course_name: string;
+  credits: number;
+}
+
+export interface SpecializationCourses {
+  available_courses: Course[];
+  covered_courses: Course[];
+  not_covered_courses: Course[];
+}
