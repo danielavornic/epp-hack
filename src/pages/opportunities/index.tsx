@@ -315,7 +315,7 @@ const Opportunities = () => {
 
   return (
     <Layout title="Opportunities">
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 pb-10">
         <div className="container">
           <h1 className="pt-12 text-4xl font-semibold">Erasmus+ Opportunities</h1>
           <p className="mb-10 pt-4">

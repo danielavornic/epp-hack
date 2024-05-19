@@ -20,6 +20,9 @@ const config: Config = {
       },
       margin: {
         card: "22px"
+      },
+      colors: {
+        "modal-overlay": "#344054B2"
       }
       // backgroundImage: {
       //   hero: "radial-gradient(circle at 10% 20%, rgb(7, 121, 222) 0%, rgb(20, 60, 160) 90%)"
