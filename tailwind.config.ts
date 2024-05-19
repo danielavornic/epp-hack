@@ -13,7 +13,14 @@ const config: Config = {
       center: true,
       padding: "1rem"
     },
+
     extend: {
+      padding: {
+        card: "22px"
+      },
+      margin: {
+        card: "22px"
+      }
       // backgroundImage: {
       //   hero: "radial-gradient(circle at 10% 20%, rgb(7, 121, 222) 0%, rgb(20, 60, 160) 90%)"
       // }

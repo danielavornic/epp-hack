@@ -14,10 +14,11 @@ const links = [
   },
   {
     title: "Opportunities",
+    href: "/opportunities",
     submenu: [
       {
         title: "All",
-        href: "/opportunities/"
+        href: "/opportunities"
       },
       {
         title: "Comparison",
@@ -45,14 +46,25 @@ export const Navbar = () => {
       })}
     >
       <nav className="container flex h-full items-center justify-between">
-        <p className="h-fit font-bold">Erasmus++</p>
+        <Link href="/">
+          <p className="h-fit font-bold">Erasmus++</p>
+        </Link>
         <ul className="flex items-center space-x-6">
           {links.map((link, index) => {
             if (link?.submenu) {
               return (
                 <Popover placement="bottom">
                   <PopoverTrigger>
-                    <Button className="rounded-full bg-transparent px-5 py-2 text-base font-semibold text-gray-200 hover:bg-primary-800">
+                    <Button
+                      className={clsx(
+                        "rounded-full bg-transparent px-5 py-2 text-base font-semibold  ",
+                        {
+                          "text-gray-200 hover:bg-primary-800": isWhite,
+                          "text-primary-800 hover:bg-primary-100": !isWhite,
+                          "!bg-primary-100 text-primary-800": router.pathname.includes(link.href)
+                        }
+                      )}
+                    >
                       {link.title}
                     </Button>
                   </PopoverTrigger>
@@ -62,11 +74,23 @@ export const Navbar = () => {
                         {link.submenu.map((submenuLink, index) => (
                           <li
                             key={index}
-                            className="font-inter flex py-1 text-base text-primary-800 hover:text-primary-700"
+                            className={clsx(
+                              "font-inter flex py-1 text-base text-primary-800 hover:text-primary-700",
+                              { underline: router.pathname === submenuLink.href }
+                            )}
                           >
-                            <Link href={submenuLink.href}>{submenuLink.title}</Link>
+                            <Link
+                              href={submenuLink.href}
+                              className={clsx({ underline: router.pathname === submenuLink.href })}
+                            >
+                              {submenuLink.title}
+                            </Link>
                             {submenuLink.badge && (
-                              <span className="ml-3 rounded-full bg-primary-600 px-2 py-1 text-xs text-white">
+                              <span
+                                className={clsx(
+                                  "ml-3 rounded-full bg-primary-600 px-2 py-1 text-xs text-white"
+                                )}
+                              >
                                 {submenuLink.badge}
                               </span>
                             )}
@@ -82,12 +106,13 @@ export const Navbar = () => {
             return (
               <li
                 key={index}
-                className={clsx(
-                  "rounded-full px-5 py-2 font-semibold text-gray-200 hover:bg-primary-800",
-                  {
-                    "bg-primary-800": router.pathname === link.href
-                  }
-                )}
+                className={clsx("rounded-full px-5 py-2 font-semibold text-gray-200", {
+                  "bg-primary-800": router.pathname === link.href && isWhite,
+                  "text-primary-800 hover:bg-primary-100":
+                    router.pathname === link.href && !isWhite,
+                  "hover:bg-primary-800": router.pathname !== link.href && isWhite,
+                  "text-primary-800 hover:bg-primary-100 ": !isWhite
+                })}
               >
                 <Link href={link.href}>{link.title}</Link>
               </li>
