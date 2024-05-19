@@ -30,7 +30,7 @@ const links = [
   },
   {
     title: "Success stories",
-    href: "/success-stories"
+    href: "/#"
   }
 ];
 

@@ -249,7 +249,7 @@ const Opportunities = () => {
                 {userDetails.university.name ? (
                   <>
                     <Checkbox
-                      checked={includeStudentDetailsForm}
+                      checked={true}
                       onChange={() => setIncludeStudentDetailsForm(!includeStudentDetailsForm)}
                     >
                       Include student details ({userDetails.university.name} -{" "}

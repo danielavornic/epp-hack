@@ -49,14 +49,10 @@ const formatDate = (date?: string) => {
   return date;
 };
 
+const livingIndices = [0, 1, 28, 36, 48];
+
 const OfferPage = () => {
   const router = useRouter();
-
-  const { data: costOfLiving } = useQuery({
-    queryFn: () => commonApi.getCostOfLiving("Lisbon", "Portugal"),
-    queryKey: ["costOfLiving", "Milan", "Italy"]
-    // enabled: false
-  });
 
   const [studentDetails, setStudentDetails] = useState({
     university: {
@@ -111,6 +107,13 @@ const OfferPage = () => {
       setStudentDetails(JSON.parse(student));
     }
   }, []);
+
+  const { data: costOfLiving } = useQuery({
+    queryFn: () => commonApi.getCostOfLiving(data?.city_name, data?.country_name),
+    queryKey: ["costOfLiving", "Milan", "Italy"],
+    enabled: !!data?.city_name && !!data?.country_name,
+    select: (data: any) => data.cost_of_living_details?.[0].details
+  });
 
   const handleBack = () => {
     router.push("/opportunities");
@@ -212,17 +215,26 @@ const OfferPage = () => {
                 <div className="flex-1">
                   <div
                     className="h-[600px] w-full bg-cover bg-center"
-                    style={{ backgroundImage: 'url("https://placehold.co/600x600")' }}
+                    style={{
+                      backgroundImage:
+                        'url("https://www.umultirank.org/export/sites/default/.galleries/generic-images/Others/Winter-Calendar/why-should-I-study-in-Milan.jpg_1612823784.jpg")'
+                    }}
                   />
                 </div>
                 <div className="flex-1 space-y-8">
                   <div
                     className="h-[280px] w-auto bg-cover bg-center"
-                    style={{ backgroundImage: 'url("https://placehold.co/600x400")' }}
+                    style={{
+                      backgroundImage:
+                        'url("https://backoffice.museovirtuale.unimi.it/museovirtuale/assets/hnw29vbfe5ss08sc?key=directus-large-contain")'
+                    }}
                   />
                   <div
                     className="h-[288px] w-auto bg-cover bg-center"
-                    style={{ backgroundImage: 'url("https://placehold.co/600x400")' }}
+                    style={{
+                      backgroundImage:
+                        'url("https://www.iesabroad.org/sites/default/files/styles/media_gallery_preview/public/2023-04/306362514_126281153504552_6843181329021155925_n.jpg?h=dec22bcf&itok=UEMfGqAD")'
+                    }}
                   />
                 </div>
               </div>
@@ -283,7 +295,7 @@ const OfferPage = () => {
                     <Divider />
                   </div>
                 </div>
-                <p className="text-lg">{receiver_name}</p>
+                <p className="text-lg">University of Milan</p>
               </div>
 
               <div className="mb-5 mt-6 space-y-1">
@@ -380,6 +392,29 @@ const OfferPage = () => {
                   From <span className="font-semibold">{formatDate(offer_start_date)}</span> to{" "}
                   <span className="font-semibold">{formatDate(offer_end_date)}</span>
                 </p>
+              </div>
+
+              <div className="mb-5 mt-6 space-y-1">
+                <div className="flex items-center space-x-4">
+                  <h2 className="text-xl font-semibold uppercase text-primary-800">
+                    Costs details based on city
+                  </h2>
+                  <div className="w-full flex-1">
+                    <Divider />
+                  </div>
+                </div>
+                {/* <p className="text-lg">
+                  From <span className="font-semibold">{formatDate(offer_start_date)}</span> to{" "}
+                  <span className="font-semibold">{formatDate(offer_end_date)}</span>
+                </p> */}
+                <ul className="list-disc">
+                  {livingIndices.map((i, _) => (
+                    <li key={i}>
+                      <span className="font-bold">{costOfLiving?.[i].Item}</span>
+                      {costOfLiving?.[i].Value} EUR
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
