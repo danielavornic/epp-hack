@@ -25,13 +25,7 @@ interface Course {
 }
 
 export interface SpecializationCourses {
-  available_courses: {
-    courses: Course[];
-  };
-  covered_courses: {
-    courses: Course[];
-  };
-  not_covered_courses: {
-    courses: Course[];
-  };
+  available_courses: Course[];
+  covered_courses: Course[];
+  not_covered_courses: Course[];
 }

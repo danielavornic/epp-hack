@@ -34,12 +34,13 @@ enum FilterKeys {
 }
 
 const formatDate = (date: string) => {
-  const dateObj = new Date(date);
-  return dateObj.toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "short",
-    year: "numeric"
-  });
+  // const dateObj = new Date(date);
+  // return dateObj.toLocaleDateString("en-US", {
+  //   day: "numeric",
+  //   month: "short",
+  //   year: "numeric"
+  // });
+  return date;
 };
 
 const CriteriaCard = ({ filters }: { filters: any }) => {

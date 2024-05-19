@@ -50,7 +50,7 @@ export const CoursesPanel = ({ data, name, university, onClose }: DetailPanelPro
   return (
     <div className="fixed right-0 top-0 z-20 flex h-screen w-full justify-between">
       <div
-        className="bg-modal-overlay inset-0 h-screen w-full backdrop-blur-sm"
+        className="inset-0 h-screen w-full bg-modal-overlay backdrop-blur-sm"
         onClick={onClose}
       />
       <div className="detail-panel-scrollbar border-stroke h-full max-h-screen min-w-[560px] max-w-[560px] overflow-y-auto border bg-gray-50">
@@ -68,24 +68,28 @@ export const CoursesPanel = ({ data, name, university, onClose }: DetailPanelPro
           {/* mention that this is according to your current studies */}
           {studentData && (
             <p className="pt-4 text-sm text-gray-700">
-              According to your current studies (University:{" "}
+              According to your current studies <br />
+              (University:{" "}
               <span className="font-medium text-primary-800">{studentData.university.name}</span>,
               Specialization:{" "}
               <span className="font-medium text-primary-800">
                 {studentData.specialization.name}
               </span>
               , Semester:{" "}
-              <span className="font-medium text-primary-800">{studentData.semester}</span>), the
-              following courses are available for you:
+              <span className="font-medium text-primary-800">{studentData.semester}</span>)
             </p>
           )}
         </div>
 
         <div className="px-5 pb-6 pt-4">
           <div>
-            <h2 className="mb-2 text-lg font-semibold">All Available Courses</h2>
+            <h2 className="mb-1 text-xl font-semibold text-primary-800">All Available Courses</h2>
+            <p className="mb-4 text-xs text-gray-800">
+              All the courses the selected specialization offers and are available for you to
+              choose.
+            </p>
             <ul className="list-decimal pl-6">
-              {available_courses.courses.map((course) => (
+              {available_courses?.map((course) => (
                 <li key={course.course_name}>
                   {course.course_name} ({course.credits} credits)
                 </li>
@@ -98,9 +102,13 @@ export const CoursesPanel = ({ data, name, university, onClose }: DetailPanelPro
           </div>
 
           <div className="mt-6">
-            <h2 className="mb-2 text-lg font-semibold">Covered Courses</h2>
+            <h2 className="mb-1 text-xl font-semibold text-green-700">Covered Courses</h2>
+            <p className="mb-4 text-xs text-gray-800">
+              Courses you have to take during the period of the selected exchange program that would
+              match the credits of the chosen specialization.
+            </p>
             <ul className="list-decimal pl-6">
-              {covered_courses.courses.map((course) => (
+              {covered_courses?.map((course) => (
                 <li key={course.course_name}>
                   {course.course_name} ({course.credits} credits)
                 </li>
@@ -109,9 +117,13 @@ export const CoursesPanel = ({ data, name, university, onClose }: DetailPanelPro
           </div>
 
           <div className="mt-6">
-            <h2 className="mb-2 text-lg font-semibold">Not Covered Courses</h2>
+            <h2 className="mb-1 text-xl font-semibold text-red-700">Not Covered Courses</h2>
+            <p className="mb-4 text-xs text-gray-800">
+              Courses you have to take during the period of the selected exchange program that would
+              NOT match the credits of the chosen specialization.
+            </p>
             <ul className="list-decimal pl-6">
-              {not_covered_courses.courses.map((course) => (
+              {not_covered_courses?.map((course) => (
                 <li key={course.course_name}>
                   {course.course_name} ({course.credits} credits)
                 </li>
