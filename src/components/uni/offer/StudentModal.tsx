@@ -62,6 +62,8 @@ export const StudentModal = ({
     };
 
     localStorage.setItem("student", JSON.stringify(studentData));
+    // trigger reload
+    window.location.reload();
     onClose();
   };
 

@@ -244,6 +244,22 @@ const Opportunities = () => {
     }
   }, []);
 
+  const removeStudentDetails = () => {
+    localStorage.removeItem("student");
+    // trigger reload
+    setUserDetails({
+      university: {
+        name: "",
+        id: ""
+      },
+      specialization: {
+        id: "",
+        name: ""
+      },
+      semester: 0
+    });
+  };
+
   const { register, control, watch, reset, getValues } = useForm<FormData>({
     defaultValues: {
       searchTerm: "",
@@ -341,14 +357,29 @@ const Opportunities = () => {
                   />
                 ))}
               </div>
-              <div>
-                <Checkbox
-                  checked={includeStudentDetailsForm}
-                  onChange={() => setIncludeStudentDetailsForm(!includeStudentDetailsForm)}
-                >
-                  Include student details ({userDetails.university.name} -{" "}
-                  {userDetails.specialization.name})
-                </Checkbox>
+              <div className="flex">
+                {userDetails.university.name ? (
+                  <>
+                    <Checkbox
+                      checked={includeStudentDetailsForm}
+                      onChange={() => setIncludeStudentDetailsForm(!includeStudentDetailsForm)}
+                    >
+                      Include student details ({userDetails.university.name} -{" "}
+                      {userDetails.specialization.name})
+                    </Checkbox>
+                    <span className="ml-2"> or</span>
+                    <button
+                      onClick={removeStudentDetails}
+                      className="ml-2 text-primary-700 underline"
+                    >
+                      Remove student details
+                    </button>
+                  </>
+                ) : (
+                  <button onClick={onOpen} className="text-primary-700 underline" type="button">
+                    Add student details
+                  </button>
+                )}
               </div>
             </form>
             <div className="mt-[26px] space-y-1">
