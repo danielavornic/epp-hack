@@ -16,15 +16,15 @@ interface ChildComponentProps {
 const SideBar: React.FC<ChildComponentProps> = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const menus = [
-    { name: "Opportunities", link: "/uni/opportunities", icon: FaIndustry },
+    { name: "Offers", link: "/uni/opportunities", icon: FaIndustry },
     { name: "Faculties", link: "/uni/faculties", icon: FaUniversity },
     { name: "Log Out", link: "/uni/login", icon: IoLogOut }
   ];
   const [open, setOpen] = useState(true);
   return (
-    <section className="flex gap-6">
+    <section className="flex h-screen gap-6">
       <div
-        className={`min-h-screen bg-primary ${open ? "w-72" : "w-16"} px-4 text-white duration-500`}
+        className={`overflow-hidden max-h-screen bg-primary ${open ? "w-72" : "w-16"} px-4 text-white duration-500`}
       >
         <div className={`align-center flex justify-between ${!open ? `flex-col` : ``}`}>
           <div className="flex py-3">
@@ -68,7 +68,7 @@ const SideBar: React.FC<ChildComponentProps> = ({ children }) => {
           ))}
         </div>
       </div>
-      {<div className="max-h-full w-full overflow-auto p-2">{children}</div>}
+      {<div className="overflow-y-auto w-full m-2">{children}</div>}
     </section>
   );
 };

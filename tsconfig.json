@@ -16,6 +16,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/uni/faculties/SampleTable.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/uni/faculties/SampleTable.jsx", "src/widgets/CreateOfferModal.jsx"],
   "exclude": ["node_modules"]
 }
