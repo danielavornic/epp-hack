@@ -26,7 +26,17 @@ const formatDate = (date: string) => {
   });
 };
 
-export const OfferCard = ({ offer }: { offer: Offer }) => {
+interface OfferCardProps {
+  offer: Offer;
+  showCompare?: boolean;
+  viewMore?: boolean;
+}
+
+export const OfferCard: React.FC<OfferCardProps> = ({
+  offer,
+  showCompare = true, // Default value set here
+  viewMore = true
+}) => {
   const {
     id,
     offer_name: title,
@@ -82,17 +92,14 @@ export const OfferCard = ({ offer }: { offer: Offer }) => {
         </div>
         <div className="flex items-center space-x-2">
           <Link href={`/opportunities/${id}`}>
-            <Button color="primary">View more</Button>
+            {viewMore ? <Button color="primary">View more</Button> : <Button color="primary">Edit</Button>} 
           </Link>
-          <Button
-            isIconOnly
-            title="Add to comparison"
-            variant="flat"
-            color={isOfferInComparison ? "success" : undefined}
-            onClick={handleToggleOffer}
-          >
-            <Scale />
-          </Button>
+          {!viewMore ? <Button color="danger">Delete</Button> : <Button color="primary">Edit</Button>}
+          {showCompare && (
+            <Button isIconOnly title="Add to comparison" variant="flat">
+              <Scale />
+            </Button>
+          )}
         </div>
       </div>
 
